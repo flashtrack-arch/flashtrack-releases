@@ -11,6 +11,8 @@
 <p align="center">
   <a href="https://github.com/flashtrack-arch/flashtrack-releases/releases/latest/download/FlashTrack-win-x64.zip"><b>Download for Windows</b></a>
   ·
+  <a href="https://github.com/flashtrack-arch/flashtrack-releases/releases/latest/download/FlashTrack-osx-arm64.zip"><b>Download for macOS</b></a>
+  ·
   <a href="https://github.com/flashtrack-arch/flashtrack-releases/releases">All versions</a>
 </p>
 
@@ -28,10 +30,12 @@ You see an enemy Flash, you open the scoreboard and click their Flash icon: a co
 
 ## Requirements
 
-- Windows 10 or 11.
+- Windows 10 or 11, or macOS 13 or later on Apple Silicon.
 - League of Legends in **Borderless** window mode (nothing can be drawn over exclusive fullscreen).
 
 ## Installation
+
+### Windows
 
 1. [Download `FlashTrack-win-x64.zip`](https://github.com/flashtrack-arch/flashtrack-releases/releases/latest/download/FlashTrack-win-x64.zip), unzip it anywhere and launch `FlashTrack.exe`.
 2. FlashTrack is not code-signed: your browser may say the file is not commonly downloaded, and on the first launch Windows shows "Windows protected your PC". Click *More info* › *Run anyway*.
@@ -45,13 +49,34 @@ You see an enemy Flash, you open the scoreboard and click their Flash icon: a co
 reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v FlashTrack /f
 ```
 
+### macOS
+
+1. [Download `FlashTrack-osx-arm64.zip`](https://github.com/flashtrack-arch/flashtrack-releases/releases/latest/download/FlashTrack-osx-arm64.zip), unzip it and move `FlashTrack.app` to Applications.
+2. FlashTrack is not notarized by Apple, so macOS refuses to open it the first time. Close the warning, then open *System Settings › Privacy & Security* and click *Open Anyway* next to FlashTrack (on macOS 13 and 14, right-click the app › *Open* instead). Or run, once:
+
+   ```bash
+   xattr -d com.apple.quarantine /Applications/FlashTrack.app
+   ```
+
+3. The FlashTrack icon appears in the menu bar. FlashTrack now starts at login; turn it off in *System Settings › General › Login Items*. No permission is requested.
+
+**Update**: quit FlashTrack from the menu bar icon, download the new zip and replace the app in Applications. Your settings are kept.
+
+**Uninstall**: quit FlashTrack from the menu bar icon, delete `FlashTrack.app` and the `~/Library/Application Support/FlashTrack` folder, then remove the login entry:
+
+```bash
+rm ~/Library/LaunchAgents/com.flashtrack.app.plist
+```
+
+The Mac version is newer and has only been tried in the Practice Tool so far: please report anything odd.
+
 ## Usage
 
 - **Start a timer**: open the scoreboard (your scoreboard key, read from the game settings) and click the enemy's spell icon.
 - **Adjust a timer**: with the scoreboard open, scroll over a countdown: ±5 seconds per notch.
 - **Move or resize the overlay**: with the scoreboard open, hover it, then drag it to move it or pull a corner dot to resize it; the padlock on the top edge locks both.
 - **Language**: the flag left of the bar's « – » opens the language menu. *Automatic* follows the computer's language; any other line keeps that language from then on.
-- **Tray icon**: show or hide the bar, quit.
+- **Tray / menu bar icon**: show or hide the bar, quit.
 
 ## What FlashTrack does not do
 
@@ -61,7 +86,7 @@ It talks to two places only: the game's own Live Client Data API, on your comput
 
 ## Bug reports
 
-Open an [issue](https://github.com/flashtrack-arch/flashtrack-releases/issues) and attach the two files from `%LocalAppData%\FlashTrack`: `launch.log`, a short trace of each run (the language chosen, game start and end, scoreboard clicks and where they landed), and `crash.log`, should the app ever stop.
+Open an [issue](https://github.com/flashtrack-arch/flashtrack-releases/issues) and attach the two files from `%LocalAppData%\FlashTrack` on Windows or `~/Library/Application Support/FlashTrack` on macOS: `launch.log`, a short trace of each run (the language chosen, game start and end, scoreboard clicks and where they landed), and `crash.log`, should the app ever stop.
 
 ## Legal
 
